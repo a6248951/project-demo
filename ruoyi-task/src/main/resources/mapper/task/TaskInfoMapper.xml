@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ruoyi.mapper.TaskInfoMapper">
+
+    <resultMap type="TaskInfo" id="TaskInfoResult">
+        <id     property="id"         column="id"/>
+        <result property="userId"     column="user_id"/>
+        <result property="title"   column="title"/>
+        <result property="content"   column="content"/>
+        <result property="priority"   column="priority"/>
+        <result property="status"   column="status"/>
+        <result property="deadline"   column="deadline"/>
+        <result property="createTime"   column="create_time"/>
+    </resultMap>
+
+    <!-- 查询列表 -->
+    <select id="selectAllTaskInfo" parameterType="TaskInfo" resultMap="TaskInfoResult">
+        select id, user_id, title, content, priority,status,deadline,create_time
+        from task_info
+        <where>
+            <if test="userId != null"> and user_id = #{userId}</if>
+        </where>
+    </select>
+
+    <!-- 根据ID查询 -->
+    <select id="selectOneTaskInfo" parameterType="Long" resultMap="TaskInfoResult">
+        select id, user_id, title, content, priority,status,deadline,create_time
+        from task_info
+        where id = #{id}
+    </select>
+
+    <!-- 新增 -->
+    <insert id="insertTaskInfo" parameterType="TaskInfo">
+        insert into task_info (user_id, title, content, priority,status,deadline,create_time)
+        values (#{userId}, #{title}, #{content}, #{priority}, #{status}, #{deadline},#{createTime})
+    </insert>
+
+    <!-- 修改 -->
+    <update id="updateOneTaskInfo" parameterType="TaskInfo">
+        update task_info
+        <set>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="priority != null">priority = #{priority},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="deadline != null">deadline = #{deadline},</if>
+            <if test="createTime != null">create_time = #{createTime}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!-- 删除 -->
+    <delete id="deleteOneTaskInfo" parameterType="Long">
+        delete from task_info where id = #{id}
+    </delete>
+
+</mapper>
